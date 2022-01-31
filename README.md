@@ -38,7 +38,7 @@ quand vous aver tout installer :
 - cree un base de donner nomer la "kabyle_word" 
 - cree une table comme sa :
 ``` sql
-CREATE TABLE `word` (
+CREATE TABLE `words` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `word` text DEFAULT NULL,
   `type` text DEFAULT NULL,
