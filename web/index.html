@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Awal Database Search</title>
+<style>
+    body{
+        font-family: Arail, sans-serif;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    /* Formatting search box */
+    .search-box{
+        width: 600px;
+        position: relative;
+        display: inline-block;
+        font-size: 14px;
+    }
+    .search-box input[type="text"]{
+        height: 32px;
+        padding: 5px 10px;
+        border: 1px solid #CCCCCC;
+        font-size: 14px;
+    }
+    .result{
+        position: absolute;        
+        z-index: 999;
+        top: 100%;
+        left: 0;
+    }
+    .search-box input[type="text"], .result{
+        width: 100%;
+        box-sizing: border-box;
+    }
+    /* Formatting result items */
+    .result p{
+        margin: 0;
+        padding: 7px 10px;
+        border: 1px solid #CCCCCC;
+        border-top: none;
+        cursor: pointer;
+        background: #f1f1f1;
+    }
+    .result p:hover{
+        background: #f2f2f2;
+    }
+    button
+    {
+    	margin-top: 20px;
+    	border: 2px solid #222;
+    	background: #ddd;
+    	padding: 7px 20px;
+    	cursor: pointer;
+    	transition: all .2s;
+
+    }
+    button:hover
+    {
+    	border-radius: 5px;
+    	background: #ccc;
+    }
+
+</style>
+<script src="/jquery-3.3.1.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('.search-box input[type="text"]').on("keyup input", function(){
+        /* Get input value on change */
+        var inputVal = $(this).val().split(" ");
+        var resultDropdown = $(this).siblings(".result");
+
+        if($(this).val()){
+            $.get("/searchs.php", {term: inputVal[inputVal.length-1],back: $(this).val().substring(0,$(this).val().length-inputVal[inputVal.length-1].length)}).done(function(data){
+                // Display the returned data in browser
+                resultDropdown.html(data);
+            });
+        } else{
+            resultDropdown.empty();
+        }
+    });
+    
+    // Set search input value on click of result item
+    $(document).on("click", ".result p", function(){
+        $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
+        $(this).parent(".result").empty();
+    });
+});
+</script>
+</head>
+<body>
+	<div style="width: 100%;text-align: center;margin-top: 10%;">
+		<h1 style="font-size:70px">AWAL-AGI</h1>
+	</div>
+    <div class="search-box">
+        <input type="text" autocomplete="off" placeholder="awal ara  ..." />
+        <div class="result"></div>
+    </div>
+    <div>
+    	<button>nadid</button>
+    	<button>Get Info</button>
+    </div>
+</body>
+</html>
